@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radio Hospitals Blackburn</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- React Libraries -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    
+    <!-- Babel for JSX Transpilation -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Lucide Icons Library -->
+    <script src="https://unpkg.com/lucide-react@0.378.0/dist/umd/lucide-react.js"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Custom styles and animations */
+        body { 
+            font-family: 'Inter', sans-serif; 
+        }
+        @keyframes fade-in-up {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up { animation: fade-in-up 0.8s ease-out forwards; }
+        .animate-fade-in-up.delay-100 { animation-delay: 0.1s; }
+        @keyframes fade-in-down {
+          from { opacity: 0; transform: translateY(-10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-down { animation: fade-in-down 0.3s ease-out forwards; }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- The React app will be rendered inside this div -->
+    <div id="root"></div>
+
+    <!-- React Application Code -->
+    <script type="text/babel">
+        // Make Lucide icons available
+        const { Home, Info, Headphones, Mail, Music, Menu, X, Heart, Users, Image, Calendar, Briefcase } = lucide;
+
+        // Main App Component
+        const App = () => {
+          const [currentPage, setCurrentPage] = React.useState('home');
+          const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+
+          // Function to handle page navigation
+          const navigateTo = (page) => {
+            setCurrentPage(page);
+            setIsMenuOpen(false); // Close menu on navigation
+            window.scrollTo(0, 0); // Scroll to top on page change
+          };
+
+          // Header Component
+          const Header = () => (
+            <header className="bg-gradient-to-r from-blue-700 to-blue-500 p-4 shadow-lg sticky top-0 z-50 rounded-b-xl">
+              <div className="container mx-auto flex justify-between items-center">
+                <div className="flex items-center space-x-2 sm:space-x-3">
+                  <img
+                    src="https://placehold.co/50x50/ffffff/000000?text=RHB"
+                    alt="Radio Hospitals Blackburn Logo"
+                    className="rounded-full shadow-md w-10 h-10 sm:w-12 sm:h-12"
+                  />
+                  <h1 className="text-white text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight" style={{fontFamily: 'Inter, sans-serif'}}>Radio Hospitals Blackburn</h1>
+                </div>
+                <nav className="hidden lg:flex space-x-1">
+                  <NavLink icon={<Home size={18} />} text="Home" page="home" onClick={() => navigateTo('home')} />
+                  <NavLink icon={<Info size={18} />} text="About" page="about" onClick={() => navigateTo('about')} />
+                  <NavLink icon={<Users size={18} />} text="Team" page="team" onClick={() => navigateTo('team')} />
+                  <NavLink icon={<Calendar size={18} />} text="Schedule" page="schedule" onClick={() => navigateTo('schedule')} />
+                  <NavLink icon={<Headphones size={18} />} text="Listen" page="listen" onClick={() => navigateTo('listen')} />
+                  <NavLink icon={<Music size={18} />} text="Request" page="request" onClick={() => navigateTo('request')} />
+                  <NavLink icon={<Image size={18} />} text="Gallery" page="gallery" onClick={() => navigateTo('gallery')} />
+                  <NavLink icon={<Briefcase size={18} />} text="Sponsors" page="sponsors" onClick={() => navigateTo('sponsors')} />
+                  <NavLink icon={<Mail size={18} />} text="Contact" page="contact" onClick={() => navigateTo('contact')} />
+                </nav>
+                <div className="lg:hidden">
+                  <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-white focus:outline-none p-2">
+                    {isMenuOpen ? <X size={30} /> : <Menu size={30} />}
+                  </button>
+                </div>
+              </div>
+              {isMenuOpen && (
+                <div className="lg:hidden bg-blue-800 mt-4 rounded-lg shadow-inner animate-fade-in-down">
+                  <div className="flex flex-col items-start p-4 space-y-1">
+                    <MobileNavLink icon={<Home size={20} />} text="Home" page="home" onClick={() => navigateTo('home')} />
+                    <MobileNavLink icon={<Info size={20} />} text="About Us" page="about" onClick={() => navigateTo('about')} />
+                    <MobileNavLink icon={<Users size={20} />} text="Our Team" page="team" onClick={() => navigateTo('team')} />
+                    <MobileNavLink icon={<Calendar size={20} />} text="Schedule" page="schedule" onClick={() => navigateTo('schedule')} />
+                    <MobileNavLink icon={<Headphones size={20} />} text="How to Listen" page="listen" onClick={() => navigateTo('listen')} />
+                    <MobileNavLink icon={<Music size={20} />} text="Request a Song" page="request" onClick={() => navigateTo('request')} />
+                    <MobileNavLink icon={<Image size={20} />} text="Gallery" page="gallery" onClick={() => navigateTo('gallery')} />
+                    <MobileNavLink icon={<Briefcase size={20} />} text="Sponsors" page="sponsors" onClick={() => navigateTo('sponsors')} />
+                    <MobileNavLink icon={<Mail size={20} />} text="Contact Us" page="contact" onClick={() => navigateTo('contact')} />
+                  </div>
+                </div>
+              )}
+            </header>
+          );
+
+          // Navigation Link Components
+          const NavLink = ({ icon, text, page, onClick }) => (
+            <button
+              className={`flex items-center space-x-2 px-3 py-2 rounded-full transition-all duration-300 text-sm
+                          ${currentPage === page ? 'bg-white text-blue-700 shadow-md' : 'text-white hover:bg-blue-600'}`}
+              onClick={onClick}
+            >
+              {icon}
+              <span className="font-semibold">{text}</span>
+            </button>
+          );
+
+          const MobileNavLink = ({ icon, text, page, onClick }) => (
+             <button
+              className={`flex items-center w-full space-x-3 px-4 py-3 rounded-lg transition-all duration-300 text-base
+                          ${currentPage === page ? 'bg-white text-blue-700 shadow-md' : 'text-white hover:bg-blue-600'}`}
+              onClick={onClick}
+            >
+              {icon}
+              <span className="font-semibold">{text}</span>
+            </button>
+          );
+
+          // Hero Section Component
+          const HeroSection = () => (
+            <section className="relative bg-cover bg-center h-[350px] md:h-[450px] lg:h-[500px] flex items-center justify-center text-center rounded-xl shadow-lg my-6 md:my-8 overflow-hidden"
+              style={{ backgroundImage: `url('https://placehold.co/1200x500/3B82F6/FFFFFF?text=Bringing+Joy+Through+Music')` }}>
+              <div className="absolute inset-0 bg-black opacity-50 rounded-xl"></div>
+              <div className="relative z-10 text-white p-4 sm:p-6 rounded-lg backdrop-blur-sm bg-white/20">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 animate-fade-in-up">Your Voice, Your Music, Your Hospital Radio</h2>
+                <p className="text-lg sm:text-xl mb-8 max-w-2xl mx-auto animate-fade-in-up delay-100">
+                  Broadcasting hope, entertainment, and companionship to patients and staff.
+                </p>
+                <button
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300"
+                  onClick={() => navigateTo('listen')}
+                >
+                  Tune In Now!
+                </button>
+              </div>
+            </section>
+          );
+
+          // Page Components
+          const PageWrapper = ({ children }) => <div className="p-4 md:p-6 lg:p-8">{children}</div>;
+          
+          const HomePage = () => (
+            <PageWrapper>
+              <HeroSection />
+
+              <section className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 my-8 md:my-12">
+                <Card
+                  icon={<Headphones size={40} className="text-blue-500" />}
+                  title="Listen Live"
+                  description="Tune into our broadcasts from your bedside or stream online from home."
+                  buttonText="Learn More"
+                  onClick={() => navigateTo('listen')}
+                />
+                <Card
+                  icon={<Music size={40} className="text-blue-500" />}
+                  title="Request a Song"
+                  description="Send a special message or cheer up a loved one with their favourite song."
+                  buttonText="Make a Request"
+                  onClick={() => navigateTo('request')}
+                />
+                <Card
+                  icon={<Users size={40} className="text-blue-500" />}
+                  title="Volunteer With Us"
+                  description="Join our team! We're always looking for presenters, ward liaisons, and fundraisers."
+                  buttonText="Get Involved"
+                  onClick={() => navigateTo('contact')}
+                />
+              </section>
+
+              <section className="bg-gray-100 p-6 md:p-8 rounded-xl shadow-inner my-8 md:my-12">
+                <h3 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-8">Why Hospital Radio Matters</h3>
+                <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12">
+                  <div className="lg:w-1/2 text-base md:text-lg text-gray-700 leading-relaxed">
+                    <p className="mb-4">
+                      Radio Hospitals Blackburn (Registered Charity No. 703165) has been a beacon of comfort for decades. We understand that hospital stays can be challenging, and our aim is to provide a positive distraction through music and friendly voices to aid in recovery.
+                    </p>
+                    <p>
+                      As a self-funded charity, we rely on the generous support of sponsors and public donations to keep our vital service running. Your support makes a real difference!
+                    </p>
+                  </div>
+                  <div className="lg:w-1/2 flex justify-center w-full max-w-md">
+                    <img
+                      src="https://placehold.co/400x300/60A5FA/FFFFFF?text=Happy+Patient"
+                      alt="Happy Patient Listening to Radio"
+                      className="rounded-lg shadow-xl border-4 border-white w-full h-auto"
+                    />
+                  </div>
+                </div>
+              </section>
+            </PageWrapper>
+          );
+
+          const AboutPage = () => (
+            <PageWrapper>
+              <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 my-6 md:my-8">
+                <h2 className="text-3xl md:text-4xl font-bold text-center text-blue-700 mb-8">About Radio Hospitals Blackburn</h2>
+                <div className="max-w-4xl mx-auto text-base md:text-lg text-gray-700 leading-relaxed">
+                  <p className="mb-6">
+                    Radio Hospitals Blackburn is a registered charity (No. 703165) with a rich history of serving the local community. For decades, we have been dedicated to bringing comfort, entertainment, and a sense of connection to patients and staff within the Royal Blackburn Hospital.
+                  </p>
+                  <p className="mb-6">
+                    Our mission is simple: to enhance the well-being of patients through engaging programmes, uplifting music, and personalized song requests.
+                  </p>
+                  <div className="grid md:grid-cols-2 gap-6 mb-6">
+                    <img
+                      src="https://placehold.co/500x300/93C5FD/FFFFFF?text=Volunteer+Team"
+                      alt="Radio Volunteers"
+                      className="rounded-lg shadow-md w-full h-auto"
+                    />
+                    <img
+                      src="https://placehold.co/500x300/BFDBFE/000000?text=Studio+Shot"
+                      alt="Radio Studio"
+                      className="rounded-lg shadow-md w-full h-auto"
+                    />
+                  </div>
+                  <p className="mt-6">
+                    Your support ensures we can continue this invaluable service. If you'd like to contribute, please visit our <button onClick={() => navigateTo('sponsors')} className="text-blue-600 hover:underline font-medium">Sponsors</button> page.
+                  </p>
+                </div>
+              </div>
+            </PageWrapper>
+          );
+          
+          const TeamPage = () => {
+            const teamMembers = [
+              { name: 'John Doe', role: 'Station Manager', img: 'https://placehold.co/300x300/3B82F6/FFFFFF?text=John+D' },
+              { name: 'Jane Smith', role: 'Head of Music', img: 'https://placehold.co/300x300/60A5FA/FFFFFF?text=Jane+S' },
+              { name: 'Peter Jones', role: 'Request Collector', img: 'https://placehold.co/300x300/93C5FD/FFFFFF?text=Peter+J' },
+              { name: 'Mary Williams', role: 'Fundraising', img: 'https://placehold.co/300x300/BFDBFE/000000?text=Mary+W' },
+              { name: 'David Brown', role: 'Technical Officer', img: 'https://placehold.co/300x300/DBEAFE/000000?text=David+B' },
+              { name: 'Sarah Taylor', role: 'Presenter', img: 'https://placehold.co/300x300/EFF6FF/000000?text=Sarah+T' },
+            ];
+
+            return (
+              <PageWrapper>
+                <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 my-6 md:my-8">
+                  <h2 className="text-3xl md:text-4xl font-bold text-center text-blue-700 mb-8">Meet Our Team</h2>
+                  <p className="text-center text-base md:text-lg text-gray-700 max-w-3xl mx-auto mb-12">
+                    Our station is run entirely by a dedicated team of volunteers.
+                  </p>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
+                    {teamMembers.map((member, index) => (
+                      <div key={index} className="bg-gray-50 p-4 rounded-xl shadow-md text-center transform hover:-translate-y-2 transition-transform duration-300">
+                        <img src={member.img} alt={member.name} className="w-24 h-24 sm:w-32 sm:h-32 rounded-full mx-auto mb-4 border-4 border-blue-300" />
+                        <h3 className="text-lg sm:text-xl font-bold text-blue-800">{member.name}</h3>
+                        <p className="text-blue-600 text-sm sm:text-base font-semibold">{member.role}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </PageWrapper>
+            );
+          };
+
+          const SchedulePage = () => {
+            const schedule = {
+              'Monday': [{ time: '7pm - 9pm', show: 'The Evening Request Show' }],
+              'Tuesday': [{ time: '6pm - 8pm', show: 'Golden Oldies' }],
+              'Wednesday': [{ time: '7pm - 9pm', show: 'Midweek Madness' }],
+              'Thursday': [{ time: '8pm - 10pm', show: 'The Chart Show' }],
+              'Friday': [{ time: '7pm - 10pm', show: 'Friday Night Party' }],
+              'Saturday': [{ time: '10am - 12pm', show: 'Weekend Breakfast' }, { time: '4pm - 6pm', show: 'Saturday Sport' }],
+              'Sunday': [{ time: '12pm - 2pm', show: 'Easy Like Sunday Morning' }],
+            };
+
+            return (
+              <PageWrapper>
+                <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 my-6 md:my-8">
+                  <h2 className="text-3xl md:text-4xl font-bold text-center text-blue-700 mb-8">Our Weekly Schedule</h2>
+                  <div className="max-w-5xl mx-auto space-y-6">
+                    {Object.entries(schedule).map(([day, shows]) => (
+                      <div key={day} className="bg-blue-50 p-4 md:p-6 rounded-lg shadow-sm">
+                        <h3 className="text-2xl md:text-3xl font-bold text-blue-800 mb-4">{day}</h3>
+                        <div className="space-y-3">
+                          {shows.map((item, index) => (
+                            <div key={index} className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 bg-white p-3 rounded-md">
+                              <p className="font-bold text-blue-600 w-full sm:w-auto mb-1 sm:mb-0">{item.time}</p>
+                              <p className="text-gray-700 font-medium">{item.show}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </PageWrapper>
+            );
+          };
+
+          const GalleryPage = () => {
+            const images = [
+              { src: 'https://placehold.co/600x400/3B82F6/FFFFFF?text=Studio+Desk', alt: 'Studio Control Desk' },
+              { src: 'https://placehold.co/600x400/60A5FA/FFFFFF?text=Volunteer+Team', alt: 'Volunteer Group Photo' },
+              { src: 'https://placehold.co/600x400/93C5FD/FFFFFF?text=Patient+Request', alt: 'Collecting a patient request' },
+              { src: 'https://placehold.co/600x400/BFDBFE/000000?text=Fundraising', alt: 'Fundraising Event' },
+              { src: 'https://placehold.co/600x400/DBEAFE/000000?text=On-Air', alt: 'Presenter on-air' },
+              { src: 'https://placehold.co/600x400/EFF6FF/000000?text=Hospital', alt: 'Hospital Exterior' },
+            ];
+            return (
+              <PageWrapper>
+                <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 my-6 md:my-8">
+                    <h2 className="text-3xl md:text-4xl font-bold text-center text-blue-700 mb-8">Gallery</h2>
+                    <p className="text-center text-base md:text-lg text-gray-700 max-w-3xl mx-auto mb-12">A glimpse into life at Radio Hospitals Blackburn.</p>
+                    <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 md:gap-4">
+                        {images.map((image, index) => (
+                            <div key={index} className="overflow-hidden rounded-lg shadow-md">
+                                <img src={image.src} alt={image.alt} className="w-full h-full object-cover transform hover:scale-110 transition-transform duration-300" />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+              </PageWrapper>
+            );
+          };
+
+          const SponsorsPage = () => {
+            const sponsors = [
+                { name: 'Blackburn Builders Ltd', logo: 'https://placehold.co/200x100/3B82F6/FFFFFF?text=Blackburn+Builders' },
+                { name: 'East Lancs Motors', logo: 'https://placehold.co/200x100/60A5FA/FFFFFF?text=East+Lancs+Motors' },
+                { name: 'Pennine Pies', logo: 'https://placehold.co/200x100/93C5FD/FFFFFF?text=Pennine+Pies' },
+                { name: 'Valley IT Solutions', logo: 'https://placehold.co/200x100/BFDBFE/000000?text=Valley+IT' },
+            ];
+            return (
+              <PageWrapper>
+                <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 my-6 md:my-8">
+                    <h2 className="text-3xl md:text-4xl font-bold text-center text-blue-700 mb-8">Our Sponsors</h2>
+                    <p className="text-center text-base md:text-lg text-gray-700 max-w-3xl mx-auto mb-12">
+                        We are incredibly grateful for the support of our sponsors. Their contributions are vital for keeping our station on the air.
+                    </p>
+                    <div className="flex flex-wrap justify-center items-center gap-6 md:gap-8 mb-16">
+                        {sponsors.map((sponsor, index) => (
+                            <div key={index} className="p-2">
+                                <img src={sponsor.logo} alt={sponsor.name} className="rounded-lg h-16 md:h-24 w-auto" />
+                            </div>
+                        ))}
+                    </div>
+                    
+                    <div className="bg-blue-50 p-6 md:p-8 rounded-lg shadow-inner">
+                        <h3 className="text-2xl md:text-3xl font-bold text-center text-blue-800 mb-4">Become a Sponsor</h3>
+                        <p className="text-center text-base md:text-lg text-gray-700 max-w-3xl mx-auto mb-6">
+                            Support a fantastic local charity and promote your business. We have a range of sponsorship packages available.
+                        </p>
+                        <div className="text-center">
+                            <button onClick={() => navigateTo('contact')} className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300">
+                                Contact Us To Find Out More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+              </PageWrapper>
+            );
+          };
+
+          const ListenPage = () => (
+            <PageWrapper>
+              <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 my-6 md:my-8">
+                <h2 className="text-3xl md:text-4xl font-bold text-center text-blue-700 mb-8">How to Listen</h2>
+                <div className="max-w-3xl mx-auto text-base md:text-lg text-gray-700 leading-relaxed space-y-8">
+                  <div className="bg-blue-50 p-6 rounded-lg shadow-inner">
+                    <h3 className="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center"><Headphones className="mr-3 flex-shrink-0" /> For Patients in Hospital</h3>
+                    <ul className="list-disc list-inside space-y-2 pl-4">
+                      <li><strong>Bedside Entertainment System:</strong> Look for "Radio Hospitals Blackburn" on your unit.</li>
+                      <li><strong>Personal Devices:</strong> Stream our broadcast on your phone or tablet via this website.</li>
+                    </ul>
+                  </div>
+                  <div className="bg-blue-50 p-6 rounded-lg shadow-inner">
+                    <h3 className="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center"><Headphones className="mr-3 flex-shrink-0" /> Listening Online (Anywhere!)</h3>
+                    <p className="mt-4 text-center text-lg text-gray-600">
+                      A live player will be integrated here soon!
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </PageWrapper>
+          );
+
+          const RequestPage = () => (
+            <PageWrapper>
+              <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 my-6 md:my-8">
+                <h2 className="text-3xl md:text-4xl font-bold text-center text-blue-700 mb-8">Request a Song</h2>
+                <div className="max-w-2xl mx-auto">
+                  <div className="bg-blue-50 p-6 rounded-lg shadow-inner">
+                    <form className="space-y-4">
+                      <div>
+                        <label htmlFor="yourName" className="block text-gray-700 text-sm font-bold mb-2">Your Name:</label>
+                        <input type="text" id="yourName" className="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500" />
+                      </div>
+                      <div>
+                        <label htmlFor="patientName" className="block text-gray-700 text-sm font-bold mb-2">Patient's Name (if applicable):</label>
+                        <input type="text" id="patientName" className="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500" />
+                      </div>
+                      <div>
+                        <label htmlFor="songTitle" className="block text-gray-700 text-sm font-bold mb-2">Song Title:</label>
+                        <input type="text" id="songTitle" className="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500" required />
+                      </div>
+                      <div>
+                        <label htmlFor="artistName" className="block text-gray-700 text-sm font-bold mb-2">Artist Name:</label>
+                        <input type="text" id="artistName" className="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500" required />
+                      </div>
+                      <div>
+                        <label htmlFor="message" className="block text-gray-700 text-sm font-bold mb-2">Your Message (optional):</label>
+                        <textarea id="message" rows="4" className="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500"></textarea>
+                      </div>
+                      <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300">Send Request</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </PageWrapper>
+          );
+
+          const ContactPage = () => (
+            <PageWrapper>
+              <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 my-6 md:my-8">
+                <h2 className="text-3xl md:text-4xl font-bold text-center text-blue-700 mb-8">Contact Us</h2>
+                <div className="max-w-4xl mx-auto text-base md:text-lg leading-relaxed">
+                  <div className="grid md:grid-cols-2 gap-8 mb-8">
+                    <div className="bg-blue-50 p-6 rounded-lg shadow-inner flex flex-col items-center text-center">
+                      <Mail size={40} className="text-blue-500 mb-4" />
+                      <h3 className="text-xl md:text-2xl font-semibold text-blue-800 mb-2">General Enquiries</h3>
+                      <a href="mailto:info@radiohospitalsblackburn.org" className="text-blue-600 hover:underline font-medium break-all">info@radiohospitalsblackburn.org</a>
+                    </div>
+                    <div className="bg-blue-50 p-6 rounded-lg shadow-inner flex flex-col items-center text-center">
+                      <Users size={40} className="text-blue-500 mb-4" />
+                      <h3 className="text-xl md:text-2xl font-semibold text-blue-800 mb-2">Volunteer with Us</h3>
+                      <p className="mt-2 text-sm">Please email us with your interest!</p>
+                    </div>
+                  </div>
+                  <div className="bg-blue-50 p-6 rounded-lg shadow-inner">
+                    <h3 className="text-xl md:text-2xl font-semibold text-gray-800 mb-4 flex items-center justify-center"><Heart className="mr-3" /> Donations & Support</h3>
+                    <p className="text-center">For info on how to donate or become a sponsor, please contact us via email or visit our <button onClick={() => navigateTo('sponsors')} className="text-blue-600 hover:underline font-medium">Sponsors</button> page.</p>
+                  </div>
+                </div>
+              </div>
+            </PageWrapper>
+          );
+
+          // Card Component for Home Page
+          const Card = ({ icon, title, description, buttonText, onClick }) => (
+            <div className="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center text-center transform hover:scale-105 transition-all duration-300 border border-gray-200">
+              <div className="mb-4 p-3 bg-gray-100 rounded-full">{icon}</div>
+              <h3 className="text-2xl font-bold text-gray-800 mb-3">{title}</h3>
+              <p className="text-gray-600 mb-5 flex-grow">{description}</p>
+              <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-full shadow-md transition-all duration-300 mt-auto" onClick={onClick}>{buttonText}</button>
+            </div>
+          );
+
+          // Footer Component
+          const Footer = () => (
+            <footer className="bg-gray-800 text-white p-6 mt-auto rounded-t-xl shadow-lg">
+              <div className="container mx-auto text-center text-sm">
+                <p className="mb-2">&copy; {new Date().getFullYear()} Radio Hospitals Blackburn. All rights reserved.</p>
+                <p className="text-gray-400">Registered Charity No. 703165.</p>
+              </div>
+            </footer>
+          );
+
+          // Render the current page
+          const renderPage = () => {
+            switch (currentPage) {
+              case 'home': return <HomePage />;
+              case 'about': return <AboutPage />;
+              case 'team': return <TeamPage />;
+              case 'schedule': return <SchedulePage />;
+              case 'listen': return <ListenPage />;
+              case 'request': return <RequestPage />;
+              case 'gallery': return <GalleryPage />;
+              case 'sponsors': return <SponsorsPage />;
+              case 'contact': return <ContactPage />;
+              default: return <HomePage />;
+            }
+          };
+
+          return (
+            <div className="min-h-screen bg-gray-50 text-gray-900 flex flex-col" style={{fontFamily: 'Inter, sans-serif'}}>
+              <Header />
+              <main className="container mx-auto px-2 sm:px-4 flex-grow w-full">
+                {renderPage()}
+              </main>
+              <Footer />
+            </div>
+          );
+        };
+
+        // Render the App to the #root element
+        const container = document.getElementById('root');
+        const root = ReactDOM.createRoot(container);
+        root.render(<App />);
+
+    </script>
+</body>
+</html>
